@@ -2,7 +2,7 @@
 
 ## General
 
-Similar to Textarea and Input you can use the WYSIWYG editable in the templates to provide rich-text editing. TinyMce is installed by default in our demo. Another editor can be installed via the wysiwyg-events you find in `events.js`
+Similar to Textarea and Input you can use the WYSIWYG editable in the templates to provide rich-text editing. Quill is installed by default in our demo. Another editor can be installed via the wysiwyg-events you find in `events.js`
 
 ## Configuration
 
@@ -25,7 +25,10 @@ Similar to Textarea and Input you can use the WYSIWYG editable in the templates 
 }) }}
 ```
 
-## Enable TinyMce
+## Enable Quill 
+Quill is the new recommended editor. Please check the bundle [readme](https://github.com/pimcore/quill-bundle/blob/1.x/README.md) for installation instructions.
+
+## Enable TinyMce (deprecated)
 In Pimcore 11 the default editor changed from CKEditor to TinyMCE and has been moved into [PimcoreTinymceBundle](https://github.com/pimcore/pimcore/blob/11.x/bundles/TinymceBundle/README.md). Check the bundle readme for installation instructions.
 
 ## Add a Custom Editor
@@ -42,15 +45,15 @@ The Editor als needs to dispatch the `pimcore.events.changeWysiwyg` to set the v
 ```javascript
 document.dispatchEvent(new CustomEvent(pimcore.events.changeWysiwyg, {
     detail: {
-        e: eChange,
-        data: tinymce.activeEditor.getContent(), //text of the editor-field
+        e: {target:{id: textareaId}},
+        data: this.activeEditor.getSemanticHTML(), //text of the editor-field
         context: e.detail.context //the context in which the editor is registered (object, document ...) 
     }
 }));
 ```
 
 Please use the events from `event.js` to bind your Editor on the field and to configure it.
-For more details please take a look at the `TinymceBundle`. 
+For more details please take a look at the `QuillBundle`. 
 
 ## Extending symfony HTML sanitizer configuration
 
@@ -69,7 +72,7 @@ framework:
                 allow_elements:
                     span: [ 'class', 'style', 'id' ]
                     div: [ 'class', 'style', 'id' ]
-                    p: [ 'class', 'style', 'id', 'dir', 'data-cell' ]
+                    p: [ 'class', 'style', 'id' ]
                     strong: 'class'
                     em: 'class'
                     h1: [ 'class', 'id' ]
@@ -82,11 +85,11 @@ framework:
                     table: [ 'class', 'style', 'cellspacing', 'cellpadding', 'border', 'width', 'height', 'id' ]
                     colgroup: 'class'
                     col: [ 'class', 'style', 'id' ]
-                    thead: [ 'class', 'id', 'style' ]
-                    tbody: [ 'class', 'id', 'style' ]
-                    tr: [ 'class', 'id', 'style', 'colspan', 'rowspan' ]
-                    td: [ 'class', 'id', 'style', 'colspan', 'rowspan', 'data-row', 'width', 'height' ]
-                    th: [ 'class', 'id', 'scope', 'style', 'colspan', 'rowspan', 'width', 'height' ]
+                    thead: [ 'class', 'id' ]
+                    tbody: [ 'class', 'id' ]
+                    tr: [ 'class', 'id' ]
+                    td: [ 'class', 'id' ]
+                    th: [ 'class', 'id', 'scope' ]
                     ul: [ 'class', 'style', 'id' ]
                     li: [ 'class', 'style', 'id' ]
                     ol: [ 'class', 'style', 'id' ]
@@ -100,7 +103,7 @@ framework:
                     s: [ 'class', 'id' ]
                     iframe: [ 'frameborder', 'height', 'longdesc', 'name', 'sandbox', 'scrolling', 'src', 'title', 'width' ]
                     br: ''
-                    img: [ 'class', 'alt', 'style', 'src' ]
+                    img: [ 'class', 'id', 'alt', 'style', 'src' ]
                     hr: ''
 ```
 If you want to adapt this configuration please have a look at the [symfony documentation](https://symfony.com/doc/current/html_sanitizer.html). Add your custom configuration to you project, e.g. to `config/packages/html_sanitizer.yaml`
