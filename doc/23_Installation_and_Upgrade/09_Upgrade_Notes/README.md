@@ -1,5 +1,10 @@
 # Upgrade Notes
 
+## Pimcore 11.6.0
+### Elements
+#### [Documents]
+- Video Editable: Passing an invalid allowedTypes config will throw an exception.
+
 ## Pimcore 11.5.0
 ### General
 #### [Database]
