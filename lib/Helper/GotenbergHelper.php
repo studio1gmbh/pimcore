@@ -39,7 +39,7 @@ class GotenbergHelper
             return true;
         }
 
-        if(Cache::load('gotenberg_ping') === true) {
+        if (Cache::load('gotenberg_ping') === true) {
             self::$validPing = true;
             return true;
         }
